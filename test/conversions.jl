@@ -25,6 +25,20 @@ zdt = now(warsaw)
 @test abs(today() - today(warsaw)) <= Dates.Day(1)
 @test today(apia) - today(midway) == Dates.Day(1)
 
+# today_at function
+zdt = now(warsaw)
+now_time = Time(TimeZones.localtime(zdt))
+@test today_at(now_time, warsaw) == zdt
+
+if !precompile_enabled
+    patch = @patch today(tz::TimeZone) = Date(1916, 10, 1)
+    apply(patch) do
+        @test_throws AmbiguousTimeError today_at(Time(0), warsaw)
+        @test today_at(Time(0), warsaw, 1) == ZonedDateTime(1916, 10, 1, 0, warsaw, 1)
+        @test today_at(Time(0), warsaw, 2) == ZonedDateTime(1916, 10, 1, 0, warsaw, 2)
+    end
+end
+
 
 # Changing time zones
 dt = DateTime(2015, 1, 1, 0)

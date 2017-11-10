@@ -1,5 +1,6 @@
 import Base.Dates: unix2datetime, datetime2unix, julian2datetime, datetime2julian,
     now, today
+import Mocking: @mock
 
 # UTC is an abstract type defined in Base.Dates, for some reason
 const utc_tz = FixedTimeZone("UTC")
@@ -40,6 +41,29 @@ julia> today(tz"Pacific/Midway"), today(tz"Pacific/Apia")
 ```
 """
 today(tz::TimeZone) = Date(localtime(now(tz)))
+
+"""
+    today_at(tod::Time, tz::TimeZone, [amb]) -> ZonedDateTime
+
+Creates a `ZonedDateTime` for today at the specified time of day. If the result is ambiguous
+in the given `TimeZone` then `amb` can be supplied to resolve ambiguity.
+
+# Examples
+
+```julia
+julia> today(tz"Europe/Warsaw")
+2017-11-09
+
+julia> today_at(Time(10, 30), tz"Europe/Warsaw")
+2017-11-09T10:30:00+01:00
+```
+"""
+function today_at(tod::Time, tz::VariableTimeZone, amb::Union{Integer,Bool})
+    ZonedDateTime((@mock today(tz)) + tod, tz, amb)
+end
+
+today_at(tod::Time, tz::TimeZone) = ZonedDateTime((@mock today(tz)) + tod, tz)
+
 
 """
     astimezone(zdt::ZonedDateTime, tz::TimeZone) -> ZonedDateTime
