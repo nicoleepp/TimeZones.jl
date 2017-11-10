@@ -1,5 +1,7 @@
 utc = FixedTimeZone("UTC")
 warsaw = resolve("Europe/Warsaw", tzdata["europe"]...)
+apia = resolve("Pacific/Apia", tzdata["australasia"]...)
+midway = resolve("Pacific/Midway", tzdata["australasia"]...)
 
 # Converting a ZonedDateTime into a DateTime
 dt = DateTime(2015, 1, 1, 0)
@@ -18,6 +20,10 @@ dt = Dates.unix2datetime(time())  # Base.now in UTC
 zdt = now(warsaw)
 @test zdt.timezone == warsaw
 @test Dates.datetime2unix(dt) ≈ Dates.datetime2unix(TimeZones.utc(zdt))
+
+# today function
+@test abs(today() - today(warsaw)) <= Dates.Day(1)
+@test today(apia) - today(midway) == Dates.Day(1)
 
 
 # Changing time zones
