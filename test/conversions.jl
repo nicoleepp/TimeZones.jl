@@ -17,7 +17,7 @@ arr = repmat([zdt], 10)
 dt = Dates.unix2datetime(time())  # Base.now in UTC
 zdt = now(warsaw)
 @test zdt.timezone == warsaw
-@test isapprox(map(Dates.datetime2unix, [dt, TimeZones.utc(zdt)])...)
+@test Dates.datetime2unix(dt) ≈ Dates.datetime2unix(TimeZones.utc(zdt))
 
 
 # Changing time zones
