@@ -2,6 +2,7 @@ __precompile__()
 
 module TimeZones
 
+using Nullables
 using Compat.Dates
 import Compat.Dates: TimeZone, AbstractTime
 import Base: @deprecate_binding
