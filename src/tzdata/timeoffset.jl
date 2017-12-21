@@ -1,6 +1,7 @@
 import Base: convert, promote_rule, string, print, show
 import Compat.Dates: Period, TimePeriod, Week, Day, Hour, Minute, Second, Millisecond,
     value, toms, hour, minute, second
+import Compat.Printf: @sprintf
 
 # Convenience type for working with HH:MM:SS.
 struct TimeOffset <: TimePeriod

@@ -1,5 +1,6 @@
 import Compat.Dates: Hour, Minute, Second, Millisecond,
     days, hour, minute, second, millisecond
+import Compat.Unicode: lowercase
 
 """
     localtime(::ZonedDateTime) -> DateTime

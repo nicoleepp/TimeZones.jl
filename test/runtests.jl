@@ -14,6 +14,7 @@ using TimeZones
 import TimeZones: PKG_DIR, ARCHIVE_DIR
 import TimeZones.TZData: ZoneDict, RuleDict, tzparse, resolve, build
 import Compat: Sys
+import Compat.Unicode: lowercase
 
 const TZDATA_VERSION = "2016j"
 const TZ_SOURCE_DIR = get(ENV, "TZ_SOURCE_DIR", joinpath(PKG_DIR, "test", "tzsource"))
